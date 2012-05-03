@@ -20,6 +20,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hosts
   map.resources :recipes, :collection => {:preview => :get}
   map.resources :projects, :member => {:dashboard => :get} do |projects|
+    projects.resources :project_users
+
     projects.resources :project_configurations
     
     projects.resources :stages, :member => {:capfile => :get, :recipes => :any, :tasks => :get} do |stages|

@@ -1,6 +1,6 @@
-[submodule "vendor/pluginsfast_remote_cache"]
-	path = vendor/pluginsfast_remote_cache
-	url = git://github.com/37signals/fast_remote_cache.git
 [submodule "vendor/plugins/webistrano_privileges"]
 	path = vendor/plugins/webistrano_privileges
 	url = git://github.com/haitham/webistrano_privileges.git
+[submodule "vendor/plugins/fast_remote_cache"]
+	path = vendor/plugins/fast_remote_cache
+	url = git://github.com/37signals/fast_remote_cache.git

@@ -287,6 +287,7 @@ module Webistrano
     # returns a list of all tasks defined for this deployer
     def list_tasks
       config = instantiate_configuration
+      Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| config.load(plugin) }
       config.load 'deploy'
       
       set_up_config(config)

@@ -4,3 +4,6 @@
 [submodule "vendor/plugins/fast_remote_cache"]
 	path = vendor/plugins/fast_remote_cache
 	url = git://github.com/37signals/fast_remote_cache.git
+[submodule "vendor/plugins/webistrano_stage_privileges"]
+	path = vendor/plugins/webistrano_stage_privileges
+	url = git://github.com/espace/webistrano_stage_privileges.git

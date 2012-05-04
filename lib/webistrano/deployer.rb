@@ -57,6 +57,7 @@ module Webistrano
     def execute!
       config = instantiate_configuration
       config.logger.level = options[:verbose]
+      Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| config.load(plugin) }
       config.load 'deploy'
 
       status = catch(:abort_called_by_capistrano){

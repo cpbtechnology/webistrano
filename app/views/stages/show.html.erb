@@ -1,4 +1,7 @@
 <div class="special_box">
+  <!--alimaher-->
+  <%if !current_user.read_only(@stage) || current_user.admin? %>
+  <!--end alimaher-->
   <div class="special_box_top"></div>
   <div class="special_box_middle deployments_box">
    <p><%= link_to 'Deploy', new_project_stage_deployment_path(current_project, @stage) + '?task=deploy', :class => 'arrow_link' %></p>
@@ -15,7 +18,11 @@
          :onclick => "location.href='#{tasks_project_stage_path(current_project, @stage)}#' + $F('task'); return false" %>
    </p>
     </div>
+  
   <div class="special_box_bottom"></div>
+  <!--alimaher-->
+  <%end%>
+  <!--end alimaher-->
 </div>
 
 <div class="box">
@@ -37,10 +44,16 @@
 		  <b>#Hosts:</b>
 		  <%=h @stage.hosts.count %>
 		</p>
+		<!--alimaher-->
+		<%if !current_user.read_only(@stage) || current_user.admin? %>
+		<!--end alimaher-->
 		<br />
 		<%= link_to 'Edit stage', edit_project_stage_path(current_project, @stage), :class => 'arrow_link' %> | 
 		<%= link_to 'Delete stage', project_stage_path(current_project, @stage), :confirm => 'Are you sure?', :method => :delete, :class => 'arrow_link'  %> | 
 		<%= link_to 'Export capfile', {:action => 'capfile', :project_id => current_project, :id => @stage}, {:onclick => "loadWindow('#{url_for(:action => 'capfile', :project_id => current_project, :id => @stage)}'); return false", :class => 'arrow_link'} %>
+		<!--alimaher-->
+		<%end%>
+		<!--end alimaher-->
 	</div>	
   <div class="box_bottom"></div>
 </div>
@@ -57,9 +70,15 @@
     <%= render(:partial => 'effective_config')%>
     <br />
   </div>
+  <!--alimaher-->
+  <%if !current_user.read_only(@stage) || current_user.admin? %>
+  <!--end alimaher-->
   <%= link_to 'New configuration', new_project_stage_stage_configuration_path(current_project, @stage), :class => 'arrow_link' %> | 
   <a id="s_e_c" href="#" onclick="show_effective_config(); return false" class="arrow_link">Show effective configuration</a>
   <a id="h_e_c" href="#" onclick="hide_effective_config(); return false" class="arrow_link" style="display:none;">Hide effective configuration</a>
+  <!--alimaher-->
+  <%end%>
+  <!--end alimaher-->
 </fieldset>
 
 <br /><br />
@@ -67,8 +86,14 @@
 <fieldset class="fieldset">
   <legend>Used recipes</legend>
   <%= render(:partial => 'recipes')%>
+  <!--alimaher-->
+  <%if !current_user.read_only(@stage) || current_user.admin? %>
+  <!--end alimaher-->
   <br />
   <%= link_to 'Manage stage recipes', {:action => 'recipes', :project_id => current_project, :id => @stage} , :class => 'arrow_link'%>
+  <!--alimaher-->
+  <%end%>
+  <!--end alimaher-->
 </fieldset>
 
 <br /><br />
@@ -76,8 +101,14 @@
 <fieldset class="fieldset">
   <legend>Deployed hosts</legend>
   <%= render(:partial => 'roles')%>
+  <!--alimaher-->
+  <%if !current_user.read_only(@stage) || current_user.admin? %>
+  <!--end alimaher-->
   <br />
   <%= link_to 'Add host', new_project_stage_role_path(current_project, @stage) , :class => 'arrow_link'%>
+  <!--alimaher-->
+  <%end%>
+  <!--end alimaher-->
 </fieldset>
 
 <br /><br />
@@ -86,6 +117,15 @@
   <legend>Recent deployment history</legend>
   <%= render(:partial => 'deployments')%>
 </fieldset>
+
+<!--alimaher-->
+<br /><br />
+<fieldset class="fieldset">
+  <legend>Privileged users</legend>
+  <%= render(:partial => 'users')%>
+  <br />
+</fieldset>
+<!--end alimaher-->
 
 <br />
 <% content_for(:page_scripts) do %>

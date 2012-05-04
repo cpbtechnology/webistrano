@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  before_filter :ensure_user, :only => [:show]
+
   
   before_filter :load_templates, :only => [:new, :create, :edit, :update]
   before_filter :ensure_admin, :only => [:new, :edit, :destroy, :create, :update]
@@ -105,6 +107,23 @@ class ProjectsController < ApplicationController
   end
   
   protected
+
+	        def ensure_user
+
+	    		if  current_user.projects.include?( Project.find(params[:id])) || ensure_admin
+
+	    			return true
+
+	    		else
+
+	      			flash[:notice] = "Action not allowed"
+
+	      			return false
+
+	    		end
+
+		end
+
   def load_templates
     @templates = ProjectConfiguration.templates.sort.collect do |k,v|
       [k.to_s.titleize, k.to_s]

@@ -1,4 +1,9 @@
-class Stage < ActiveRecord::Base  
+class Stage < ActiveRecord::Base
+    
+	has_many :stages_user
+
+	has_many :users , :through => :stages_user
+  
   belongs_to :project
   has_and_belongs_to_many :recipes
   has_many :roles, :dependent => :destroy, :order => "name ASC"

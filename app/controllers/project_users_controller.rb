@@ -14,6 +14,13 @@ class ProjectUsersController < ApplicationController
     @project = Project.find params[:project_id]
     @project_user = User.find params[:id]
     @project.users.delete @project_user if @project.user_ids.include?(@project_user.id)
+    
+	   	@project.stages.each do |stage|
+
+	    		stage.users.delete @project_user if stage.user_ids.include?(@project_user.id)
+
+	    	end
+
     redirect_to project_path(@project.id)
   end
   

@@ -10,6 +10,9 @@ gem "capistrano", "~>2.12.0"
 gem "open4", "0.9.3"
 gem "exception_notification", "2.3.3.0"
 
+# required by webistrano_ldap_users https://github.com/espace/webistrano_ldap_users
+gem "net-ldap"
+
 group :test do
   gem "mocha", "0.9.8"
 end

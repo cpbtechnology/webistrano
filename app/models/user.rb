@@ -9,13 +9,9 @@ class User < ActiveRecord::Base
 	attr_accessible :ldap_cn
 
 	def self.retrieve_from_ldap(login)
-
 		auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
-
 		ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base], :auth => auth
-
 		filter = Net::LDAP::Filter.eq('cn', login)
-
 		ldap_entry = ldap.search(:filter => filter).first
 
 		return ldap_entry
@@ -23,31 +19,19 @@ class User < ActiveRecord::Base
 	end
 
 	def ldap_authenticated?(password)
-
 		auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
-		
 		ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base],:auth => auth
-
 		ldap_entry = User.retrieve_from_ldap(ldap_cn)
-
 		dn=ldap_entry.dn
-
 		ldap.auth(dn,password)
-
 		ldap.bind
-
 	end
 
 	def self.ldap_users
-
 		auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
-
 		ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base], :auth => auth
-
 		filter = Net::LDAP::Filter.eq(WebistranoConfig[:ldap_filter_attr], WebistranoConfig[:ldap_filter_value] )
-
 		entries = ldap.search(:filter => filter)
-
 		entries.delete_if{|u| u[:cn] == [] || u[:mail] == []}
 
 		return entries
@@ -55,45 +39,27 @@ class User < ActiveRecord::Base
 	end
 
 	def self.ldap_email(ldap_cn)
-
 		auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
-
 		ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base], :auth => auth
-
 		filter = Net::LDAP::Filter.eq('cn', ldap_cn)
-
 		ldap_entry = ldap.search(:filter => filter).first
-
 		return ldap_entry[:mail].to_s
 
 	end
 
 	def normalize
-
 		if self.login.blank?
-
 			self.login = User.ldap_email(self.ldap_cn)
-
 			self.email = User.ldap_email(self.ldap_cn)
-
 			if(self.email.blank?)
-
 				self.login = self.ldap_cn
-				
 				self.email = "#{self.login}@empty.com"
-
 			end
- 
 			self.password = '----'
-
 			self.password_confirmation = '----'
-
 		else
-
 			self.ldap_cn = nil
-
 		end
-
 	end
 
   has_and_belongs_to_many :projects
@@ -103,29 +69,19 @@ class User < ActiveRecord::Base
 	has_many :stages , :through => :stages_user
 
 	def read_only(stage)
-
-  		su = stages_user.find_by_stage_id(stage.id)
-
+  	su = stages_user.find_by_stage_id(stage.id)
 		return su.read_only? if su
-
-		return false
-
+		  return false
   	end
 
 	def access(stage)
-
 		(stages_user.find_by_stage_id(stage.id).read_only?)? 'read only' : 'full access'
-
 	end
 
 	def project_stages(project)
-
 		return stages if !stages
-
 	  	stages.select{|stage| stage.project.id == project.id}
-
 	end
-
 
   has_many :deployments, :dependent => :nullify, :order => 'created_at DESC'
   

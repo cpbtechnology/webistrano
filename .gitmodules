@@ -7,3 +7,6 @@
 [submodule "vendor/plugins/webistrano_stage_privileges"]
 	path = vendor/plugins/webistrano_stage_privileges
 	url = git://github.com/espace/webistrano_stage_privileges.git
+[submodule "vendor/plugins/webistrano_ldap_users"]
+	path = vendor/plugins/webistrano_ldap_users
+	url = git://github.com/espace/webistrano_ldap_users.git

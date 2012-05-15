@@ -54,8 +54,8 @@ class User < ActiveRecord::Base
         self.login = self.ldap_cn
         self.email = "#{self.login}@empty.com"
       else
-        self.login = self.ldap_entry[:sAMAccountName][0]
-        self.email = self.ldap_entry[:mail][0]
+        self.login = ldap_entry[:sAMAccountName][0]
+        self.email = ldap_entry[:mail][0]
       end
       self.password = '----'
       self.password_confirmation = '----'

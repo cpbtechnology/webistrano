@@ -49,8 +49,8 @@ class User < ActiveRecord::Base
 
   def normalize
     if self.login.blank?
-      self.ldap_entry = User.ldap_user_details(self.ldap_cn)
-      if(self.ldap_entry.blank?)
+      ldap_entry = User.ldap_user_details(self.ldap_cn)
+      if(ldap_entry.blank?)
         self.login = self.ldap_cn
         self.email = "#{self.login}@empty.com"
       else

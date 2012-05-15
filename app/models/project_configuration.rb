@@ -12,8 +12,9 @@ class ProjectConfiguration < ConfigurationParameter
       'thin_rails' => Webistrano::Template::ThinRails,   
       'mod_rails' => Webistrano::Template::ModRails,
       'pure_file' => Webistrano::Template::PureFile,
-      'unicorn' => Webistrano::Template::Unicorn
-    }
+      'unicorn' => Webistrano::Template::Unicorn,
+      'modx_cms' => Webistrano::Template::ModxCms
+    }.sort
   end
   
 end

@@ -29,7 +29,8 @@ class User < ActiveRecord::Base
     auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
     ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base], :auth => auth
     filter = Net::LDAP::Filter.eq(WebistranoConfig[:ldap_filter_attr], WebistranoConfig[:ldap_filter_value] )
-    entries = ldap.search(:filter => filter)
+    attrs = ["cn"]
+    entries = ldap.search(:filter => filter, :attrs => attrs)
     entries.delete_if{|u| u[:cn] == [] || u[:mail] == []}
 
     return entries

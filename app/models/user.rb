@@ -37,22 +37,25 @@ class User < ActiveRecord::Base
 
   end
 
-  def self.ldap_email(ldap_cn)
+  def self.ldap_user_details(ldap_cn)
     auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
     ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base], :auth => auth
     filter = Net::LDAP::Filter.eq('cn', ldap_cn)
+    attrs = ["cn", "mail", "sAMAccountName"]
     ldap_entry = ldap.search(:filter => filter).first
-    return ldap_entry[:mail].to_s
+    return ldap_entry
 
   end
 
   def normalize
     if self.login.blank?
-      self.login = User.ldap_email(self.ldap_cn)
-      self.email = User.ldap_email(self.ldap_cn)
-      if(self.email.blank?)
+      self.ldap_entry = User.ldap_user_details(self.ldap_cn)
+      if(self.ldap_entry.blank?)
         self.login = self.ldap_cn
         self.email = "#{self.login}@empty.com"
+      else
+        self.login = self.ldap_entry[:sAMAccountName][0]
+        self.email = self.ldap_entry[:mail][0]
       end
       self.password = '----'
       self.password_confirmation = '----'

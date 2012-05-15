@@ -8,6 +8,7 @@ class ProjectConfigurationTest < ActiveSupport::TestCase
     assert_not_nil ProjectConfiguration.templates['mongrel_rails']
     assert_not_nil ProjectConfiguration.templates['pure_file']
     assert_not_nil ProjectConfiguration.templates['mod_rails']
+    assert_not_nil ProjectConfiguration.templates['mods_cms']
   end
   
   def test_uniqiness_of_name

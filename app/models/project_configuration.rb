@@ -14,7 +14,7 @@ class ProjectConfiguration < ConfigurationParameter
       'pure_file' => Webistrano::Template::PureFile,
       'unicorn' => Webistrano::Template::Unicorn,
       'modx_cms' => Webistrano::Template::ModxCms
-    }.sort
+    }
   end
   
 end

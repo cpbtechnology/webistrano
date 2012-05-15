@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   def self.retrieve_from_ldap(login)
     auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
     ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base], :auth => auth
-    filter = Net::LDAP::Filter.eq('cn', login)
+    filter = Net::LDAP::Filter.eq('sAMAccountName', login)
     ldap_entry = ldap.search(:filter => filter).first
 
     return ldap_entry

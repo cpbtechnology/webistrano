@@ -16,10 +16,10 @@ class User < ActiveRecord::Base
 
   end
 
-  def ldap_authenticated?(password)
+  def ldap_authenticated?(login, password)
     auth = { :method =>  WebistranoConfig[:ldap_method], :username =>  WebistranoConfig[:ldap_username], :password =>  WebistranoConfig[:ldap_password] }
     ldap = Net::LDAP.new  :host => WebistranoConfig[:ldap_host], :port => WebistranoConfig[:ldap_port], :base => WebistranoConfig[:ldap_base],:auth => auth
-    ldap_entry = User.retrieve_from_ldap(ldap_cn)
+    ldap_entry = User.retrieve_from_ldap(login)
     dn=ldap_entry.dn
     ldap.auth(dn,password)
     ldap.bind
@@ -114,7 +114,7 @@ class User < ActiveRecord::Base
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
     u = find_by_login_and_disabled(login, nil) # need to get the salt
-    u && (u.authenticated?(password) || u.ldap_authenticated?(password)) ? u : nil
+    u && (u.authenticated?(password) || u.ldap_authenticated?(login, password)) ? u : nil
   end
 
   # Encrypts some data with the salt.

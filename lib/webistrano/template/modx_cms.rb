@@ -39,12 +39,12 @@ module Webistrano
           desc "Run the cli installation. Requires definition of :modx_config"
           task :install, :roles => :web do
             create_config
-            run "php #{current_path}/setup/index.php --installmode=new --config=#{shared_path}/config.xml --core-path=#{current_path}/core/"
+            run "php #{current_path}/www/setup/index.php --installmode=new --config=#{shared_path}/config.xml --core-path=#{current_path}/www/core/"
           end
 
           desc "Upgrade modx via the cli, currently NO BACKUPS are done, please do it manually"
           task :upgrade, :roles => :web do
-            run "php #{deploy_to}/current/setup/index.php --installmode=upgrade --config=#{deploy_to}/shared/config.xml --core-path=#{current_path}/core/"
+            run "php #{deploy_to}/current/setup/index.php --installmode=upgrade --config=#{deploy_to}/shared/config.xml --core-path=#{current_path}/www/core/"
           end
 
           desc "Create config.xml"
@@ -82,14 +82,14 @@ module Webistrano
                   <cmsadminemail>#{cms_email}</cmsadminemail>
 
                   <!-- Paths for your MODX core directory -->
-                  <core_path>#{current_path}/core/</core_path>
+                  <core_path>#{current_path}/www/core/</core_path>
 
                   <!-- Paths for the default contexts that are installed. -->
-                  <context_mgr_path>#{current_path}/manager/</context_mgr_path>
+                  <context_mgr_path>#{current_path}/www/manager/</context_mgr_path>
                   <context_mgr_url>/manager/</context_mgr_url>
-                  <context_connectors_path>#{current_path}/connectors/</context_connectors_path>
+                  <context_connectors_path>#{current_path}/www/connectors/</context_connectors_path>
                   <context_connectors_url>/connectors/</context_connectors_url>
-                  <context_web_path>#{current_path}/</context_web_path>
+                  <context_web_path>#{current_path}/www/</context_web_path>
                   <context_web_url>/</context_web_url>
 
                   <!-- Whether or not to remove the setup/ directory after installation. -->
@@ -103,12 +103,12 @@ module Webistrano
           desc "Symlink config files, cache, logs"
           task :symlink, :roles => :web do
             run "mkdir -p #{shared_path}/system/core/config; mkdir -p #{shared_path}/system/manager; mkdir -p #{shared_path}/system/connectors; mkdir -p #{shared_path}/system/core/cache"
-            run "rm -rf #{current_path}/core/config/config.inc.php #{current_path}/manager/config.core.php #{current_path}/connectors/config.core.php #{current_path}/core/cache"
-            run "mkdir -p #{current_path}/core/config; ln -s #{shared_path}/system/core/config/config.inc.php #{current_path}/core/config/config.inc.php"
-            run "ln -s #{shared_path}/system/manager/config.core.php #{current_path}/manager/config.core.php"
-            run "ln -s #{shared_path}/system/connectors/config.core.php #{current_path}/connectors/config.core.php"
-            run "ln -s #{shared_path}/config.core.php #{current_path}/config.core.php"
-            run "ln -s #{shared_path}/system/core/cache #{current_path}/core/cache"
+            run "rm -rf #{current_path}/www/core/config/config.inc.php #{current_path}/www/manager/config.core.php #{current_path}/www/connectors/config.core.php #{current_path}/www/core/cache"
+            run "mkdir -p #{current_path}/www/core/config; ln -s #{shared_path}/system/core/config/config.inc.php #{current_path}/www/core/config/config.inc.php"
+            run "ln -s #{shared_path}/system/manager/config.core.php #{current_path}/www/manager/config.core.php"
+            run "ln -s #{shared_path}/system/connectors/config.core.php #{current_path}/www/connectors/config.core.php"
+            run "ln -s #{shared_path}/config.core.php #{current_path}/www/config.core.php"
+            run "ln -s #{shared_path}/system/core/cache #{current_path}/www/core/cache"
           end
 
           desc "Not IMPLEMENTED: Setup MODX Install"

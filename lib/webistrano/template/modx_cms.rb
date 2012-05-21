@@ -105,9 +105,9 @@ module Webistrano
             run "mkdir -p #{shared_path}/system/www/core/config; mkdir -p #{shared_path}/system/www/manager; mkdir -p #{shared_path}/system/www/connectors; mkdir -p #{shared_path}/system/www/core/cache"
             run "rm -rf #{current_path}/www/core/config/config.inc.php #{current_path}/www/manager/config.core.php #{current_path}/www/connectors/config.core.php #{current_path}/www/core/cache"
             run "mkdir -p #{current_path}/www/core/config; ln -s #{shared_path}/system/www/core/config/config.inc.php #{current_path}/www/core/config/config.inc.php"
-            run "ln -s #{shared_path}/system/www/www/manager/config.core.php #{current_path}/www/manager/config.core.php"
+            run "ln -s #{shared_path}/system/www/manager/config.core.php #{current_path}/www/manager/config.core.php"
             run "ln -s #{shared_path}/system/www/connectors/config.core.php #{current_path}/www/connectors/config.core.php"
-            run "ln -s #{shared_path}/www/config.core.php #{current_path}/www/config.core.php"
+            run "ln -s #{shared_path}/system/www/config.core.php #{current_path}/www/config.core.php"
             run "ln -s #{shared_path}/system/www/core/cache #{current_path}/www/core/cache"
           end
 

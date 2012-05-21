@@ -44,7 +44,7 @@ module Webistrano
 
           desc "Upgrade modx via the cli, currently NO BACKUPS are done, please do it manually"
           task :upgrade, :roles => :web do
-            run "php #{deploy_to}/current/setup/index.php --installmode=upgrade --config=#{deploy_to}/shared/config.xml --core-path=#{current_path}/www/core/"
+            run "php #{current_path}/www/setup/index.php --installmode=upgrade --config=#{shared_path}/config.xml --core-path=#{current_path}/www/core/"
           end
 
           desc "Create config.xml"
@@ -102,13 +102,13 @@ module Webistrano
 
           desc "Symlink config files, cache, logs"
           task :symlink, :roles => :web do
-            run "mkdir -p #{shared_path}/system/core/config; mkdir -p #{shared_path}/system/manager; mkdir -p #{shared_path}/system/connectors; mkdir -p #{shared_path}/system/core/cache"
+            run "mkdir -p #{shared_path}/system/www/core/config; mkdir -p #{shared_path}/system/www/manager; mkdir -p #{shared_path}/system/www/connectors; mkdir -p #{shared_path}/system/www/core/cache"
             run "rm -rf #{current_path}/www/core/config/config.inc.php #{current_path}/www/manager/config.core.php #{current_path}/www/connectors/config.core.php #{current_path}/www/core/cache"
-            run "mkdir -p #{current_path}/www/core/config; ln -s #{shared_path}/system/core/config/config.inc.php #{current_path}/www/core/config/config.inc.php"
-            run "ln -s #{shared_path}/system/manager/config.core.php #{current_path}/www/manager/config.core.php"
-            run "ln -s #{shared_path}/system/connectors/config.core.php #{current_path}/www/connectors/config.core.php"
-            run "ln -s #{shared_path}/config.core.php #{current_path}/www/config.core.php"
-            run "ln -s #{shared_path}/system/core/cache #{current_path}/www/core/cache"
+            run "mkdir -p #{current_path}/www/core/config; ln -s #{shared_path}/system/www/core/config/config.inc.php #{current_path}/www/core/config/config.inc.php"
+            run "ln -s #{shared_path}/system/www/www/manager/config.core.php #{current_path}/www/manager/config.core.php"
+            run "ln -s #{shared_path}/system/www/connectors/config.core.php #{current_path}/www/connectors/config.core.php"
+            run "ln -s #{shared_path}/www/config.core.php #{current_path}/www/config.core.php"
+            run "ln -s #{shared_path}/system/www/core/cache #{current_path}/www/core/cache"
           end
 
           desc "Not IMPLEMENTED: Setup MODX Install"

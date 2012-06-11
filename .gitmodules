@@ -12,4 +12,4 @@
 	url = git://github.com/espace/webistrano_ldap_users.git
 [submodule "vendor/plugins/webistrano_cpb"]
 	path = vendor/plugins/webistrano_cpb
-	url = http://rgibbons@stash.svn.plus.cpbgroup.net:7990/git/DEVOPS/webistrano_cpb.git
+	url = http://stash.svn.plus.cpbgroup.net:7990/git/DEVOPS/webistrano_cpb.git

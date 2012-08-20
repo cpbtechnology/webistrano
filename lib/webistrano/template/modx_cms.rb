@@ -1,7 +1,7 @@
 module Webistrano
   module Template
     module ModxCms
-      
+
       CONFIG = Webistrano::Template::PureFile::CONFIG.dup.merge({
         :db_server => "IP of the database server",
         :db_name => "Name of the database for the application",
@@ -13,14 +13,14 @@ module Webistrano
         :cms_email => "Email for the cms admin user"
 
       }).freeze
-      
+
       DESC = <<-'EOS'
         Template for use with MODX CMS
         The basic (re)start/stop tasks of Capistrano are overrided with NOP tasks.
       EOS
-      
+
       TASKS = Webistrano::Template::Base::TASKS + <<-'EOS'
-      
+
          namespace :deploy do
            task :restart, :roles => :app, :except => { :no_release => true } do
              # do nothing
@@ -67,7 +67,7 @@ module Webistrano
                   <!-- Set this to 1 if you are using MODX from Git or extracted it from the full MODX package to the server prior
                        to installation. -->
                   <inplace>0</inplace>
-                  
+
                   <!-- Set this to 1 if you have manually extracted the core package from the file core/packages/core.transport.zip.
                        This will reduce the time it takes for the installation process on systems that do not allow the PHP time_limit
                        and Apache script execution time settings to be altered. -->
@@ -105,6 +105,7 @@ module Webistrano
             run "mkdir -p #{shared_path}/system/www/core/config; mkdir -p #{shared_path}/system/www/manager; mkdir -p #{shared_path}/system/www/connectors; mkdir -p #{shared_path}/system/www/core/cache"
             run "rm -rf #{current_path}/www/core/config/config.inc.php #{current_path}/www/manager/config.core.php #{current_path}/www/connectors/config.core.php #{current_path}/www/core/cache"
             run "mkdir -p #{current_path}/www/core/config; ln -s #{shared_path}/system/www/core/config/config.inc.php #{current_path}/www/core/config/config.inc.php"
+            run "rm -rf #{current_path}/www/upload; mkdir -p #{shared_path}/system/www/upload; ln -s #{shared_path}/system/www/upload #{current_path}/www/upload"
             run "ln -s #{shared_path}/system/www/manager/config.core.php #{current_path}/www/manager/config.core.php"
             run "ln -s #{shared_path}/system/www/connectors/config.core.php #{current_path}/www/connectors/config.core.php"
             run "ln -s #{shared_path}/system/www/config.core.php #{current_path}/www/config.core.php"
@@ -124,7 +125,7 @@ module Webistrano
           after "deploy:create_symlink", "modx:symlink"
         end
       EOS
-    
+
     end
   end
 end

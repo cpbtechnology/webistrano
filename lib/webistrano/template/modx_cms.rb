@@ -100,6 +100,11 @@ module Webistrano
             put config_xml, "#{shared_path}/config.xml"
           end
 
+          desc "Remove modx setup directory"
+          task :remove_setup_directory, :roles => :web do
+            run "rm -rf #{current_path}/www/setup"
+          end
+
           desc "Symlink config files, cache, logs"
           task :symlink, :roles => :web do
             run "mkdir -p #{shared_path}/system/www/core/config; mkdir -p #{shared_path}/system/www/manager; mkdir -p #{shared_path}/system/www/connectors; mkdir -p #{shared_path}/system/www/core/cache"

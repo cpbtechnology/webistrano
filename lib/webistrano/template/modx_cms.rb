@@ -118,7 +118,7 @@ module Webistrano
           end
 
           desc "Remove everything from inside the MODx cache directories"
-          task :clear_modx_cache, :reoles => :web do
+          task :clear_cache, :reoles => :web do
             run "rm -rf #{shared_path}/system/www/core/cache/*"
           end
 
@@ -132,8 +132,9 @@ module Webistrano
             run "echo Need to implement"
           end
 
+          before "modx:clear_cache", "cpb:reset_permissions"
           after "deploy:create_symlink", "modx:symlink"
-          after "modx:symlink", "modx:clear_modx_cache"
+          after "modx:symlink", "modx:clear_cache"
         end
       EOS
 

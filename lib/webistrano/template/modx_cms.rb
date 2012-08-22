@@ -117,6 +117,11 @@ module Webistrano
             run "ln -s #{shared_path}/system/www/core/cache #{current_path}/www/core/cache"
           end
 
+          desc "Remove everything from inside the MODx cache directories"
+          task :clear_modx_cache, :reoles => :web do
+            run "rm -rf #{shared_path}/system/www/core/cache/*"
+          end
+
           desc "Not IMPLEMENTED: Setup MODX Install"
           task :setup, :roles => :web do
             run "echo Stub for symlink and other setup specific to capistrano"
@@ -128,6 +133,7 @@ module Webistrano
           end
 
           after "deploy:create_symlink", "modx:symlink"
+          after "modx:symlink", "modx:clear_modx_cache"
         end
       EOS
 

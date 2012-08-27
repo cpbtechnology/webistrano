@@ -102,11 +102,11 @@ module Webistrano
 
           desc "Remove modx setup directory"
           task :remove_setup_directory, :roles => :web do
-            run "rm -rf #{current_path}/www/setup"
+            run "rm -rf #{release_path}/www/setup"
           end
 
           desc "Symlink config files, cache, logs"
-          task :symlink, :roles => :web do
+          task :create_symlink, :roles => :web do
             run "mkdir -p #{shared_path}/system/www/core/config; mkdir -p #{shared_path}/system/www/manager; mkdir -p #{shared_path}/system/www/connectors; mkdir -p #{shared_path}/system/www/core/cache"
             run "rm -rf #{current_path}/www/core/config/config.inc.php #{current_path}/www/manager/config.core.php #{current_path}/www/connectors/config.core.php #{current_path}/www/core/cache"
             run "mkdir -p #{current_path}/www/core/config; ln -s #{shared_path}/system/www/core/config/config.inc.php #{current_path}/www/core/config/config.inc.php"
@@ -132,9 +132,8 @@ module Webistrano
             run "echo Need to implement"
           end
 
-          before "modx:clear_cache", "cpb:reset_permissions"
-          after "deploy:create_symlink", "modx:symlink"
-          after "modx:symlink", "modx:clear_cache"
+          after "deploy:finalize_update", "cpb:reset_permissions", "modx:remove_setup_directory"
+          before "deploy:create_symlink", "modx:create_symlink", "modx:clear_cache"
         end
       EOS
 

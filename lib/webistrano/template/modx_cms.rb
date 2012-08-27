@@ -108,13 +108,13 @@ module Webistrano
           desc "Symlink config files, cache, logs"
           task :create_symlink, :roles => :web do
             run "mkdir -p #{shared_path}/system/www/core/config; mkdir -p #{shared_path}/system/www/manager; mkdir -p #{shared_path}/system/www/connectors; mkdir -p #{shared_path}/system/www/core/cache"
-            run "rm -rf #{current_path}/www/core/config/config.inc.php #{current_path}/www/manager/config.core.php #{current_path}/www/connectors/config.core.php #{current_path}/www/core/cache"
-            run "mkdir -p #{current_path}/www/core/config; ln -s #{shared_path}/system/www/core/config/config.inc.php #{current_path}/www/core/config/config.inc.php"
-            run "rm -rf #{current_path}/www/upload; mkdir -p #{shared_path}/system/www/upload; ln -s #{shared_path}/system/www/upload #{current_path}/www/upload"
-            run "ln -s #{shared_path}/system/www/manager/config.core.php #{current_path}/www/manager/config.core.php"
-            run "ln -s #{shared_path}/system/www/connectors/config.core.php #{current_path}/www/connectors/config.core.php"
-            run "ln -s #{shared_path}/system/www/config.core.php #{current_path}/www/config.core.php"
-            run "ln -s #{shared_path}/system/www/core/cache #{current_path}/www/core/cache"
+            run "rm -rf #{release_path}/www/core/config/config.inc.php #{release_path}/www/manager/config.core.php #{release_path}/www/connectors/config.core.php #{release_path}/www/core/cache"
+            run "mkdir -p #{release_path}/www/core/config; ln -s #{shared_path}/system/www/core/config/config.inc.php #{release_path}/www/core/config/config.inc.php"
+            run "rm -rf #{release_path}/www/upload; mkdir -p #{shared_path}/system/www/upload; ln -s #{shared_path}/system/www/upload #{release_path}/www/upload"
+            run "ln -s #{shared_path}/system/www/manager/config.core.php #{release_path}/www/manager/config.core.php"
+            run "ln -s #{shared_path}/system/www/connectors/config.core.php #{release_path}/www/connectors/config.core.php"
+            run "ln -s #{shared_path}/system/www/config.core.php #{release_path}/www/config.core.php"
+            run "ln -s #{shared_path}/system/www/core/cache #{release_path}/www/core/cache"
           end
 
           desc "Remove everything from inside the MODx cache directories"

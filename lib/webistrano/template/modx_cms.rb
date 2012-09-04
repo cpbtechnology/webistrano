@@ -132,7 +132,7 @@ module Webistrano
             run "echo Need to implement"
           end
 
-          after "deploy:finalize_update", "cpb:reset_permissions", "modx:remove_setup_directory"
+          after "deploy:finalize_update", "cpb:reset_permissions"
           before "deploy:create_symlink", "modx:create_symlink", "modx:clear_cache"
         end
       EOS

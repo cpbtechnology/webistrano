@@ -33,21 +33,21 @@ module Webistrano
         def unicorn_restart_cmd
           "kill -USR2 `cat #{unicorn_pid}"
         end
-      
+
         namespace :webistrano do
           namespace :unicorn do
             desc "Start Unicorn directly"
             task :start, :roles => :app, :except => { :no_release => true } do
               as = fetch(:runner, "app")
-              invoke_command "#{unicorn_start_cmd} start", :via => run_method, :as => as
+              invoke_command "#{unicorn_start_cmd}", :via => run_method, :as => as
             end
-            
+
             desc "Stop Unicorn directly"
             task :stop, :roles => :app, :except => { :no_release => true } do
               as = fetch(:runner, "app")
-              invoke_command "#{unicorn_stop_cmd} stop", :via => run_method, :as => as
+              invoke_command "#{unicorn_stop_cmd}", :via => run_method, :as => as
             end
-            
+
             desc "Restart Unicorn app directly"
             task :restart, :roles => :app, :except => { :no_release => true } do
               as = fetch(:runner, "app")
@@ -55,16 +55,16 @@ module Webistrano
             end
           end
         end
-        
+
         namespace :deploy do
           task :restart, :roles => :app, :except => { :no_release => true } do
             webistrano.unicorn.restart
           end
-          
+
           task :start, :roles => :app, :except => { :no_release => true } do
             webistrano.unicorn.start
           end
-          
+
           task :stop, :roles => :app, :except => { :no_release => true } do
             webistrano.unicorn.stop
           end
